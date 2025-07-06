@@ -316,10 +316,10 @@ export default function ContactPage() {
                       type="submit"
                       className="inline-block relative overflow-hidden group w-full"
                     >
-                      <span className="relative z-10 block bg-crispy-gold text-crispy-bg-primary px-8 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-text-primary dark:group-hover:text-crispy-bg-primary">
+                      <span className="relative z-10 block bg-crispy-gold text-crispy-black px-8 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white">
                         Send Message
                       </span>
-                      <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-bg-primary transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom"></span>
+                      <span className="absolute inset-0 bg-crispy-black transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom"></span>
                     </button>
                   </form>
                 </div>
@@ -372,20 +372,20 @@ export default function ContactPage() {
               href="/how-it-works" 
               className="inline-block relative overflow-hidden group"
             >
-              <span className="relative z-10 block border border-crispy-text-primary dark:border-crispy-border-primary text-crispy-text-primary px-8 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-bg-primary dark:group-hover:text-crispy-text-primary">
+              <span className="relative z-10 block border border-crispy-text-primary dark:border-crispy-border-primary text-crispy-text-primary px-8 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white dark:group-hover:text-crispy-black">
                 How It Works
               </span>
-              <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
             
             <Link 
               href="/pricing" 
               className="inline-block relative overflow-hidden group"
             >
-              <span className="relative z-10 block border border-crispy-text-primary dark:border-crispy-border-primary text-crispy-text-primary px-8 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-bg-primary dark:group-hover:text-crispy-text-primary">
+              <span className="relative z-10 block border border-crispy-text-primary dark:border-crispy-border-primary text-crispy-text-primary px-8 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white dark:group-hover:text-crispy-black">
                 View Pricing
               </span>
-              <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </div>
         </div>

@@ -284,7 +284,7 @@ export default function AboutPage() {
                 href="/shelter-program" 
                 className="inline-block relative overflow-hidden group"
               >
-                <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-10 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white dark:bg-crispy-white dark:text-crispy-black dark:group-hover:text-crispy-black">
+                <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-10 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-black dark:bg-crispy-white dark:text-crispy-black dark:group-hover:text-crispy-white">
                   Learn About Our Program
                 </span>
                 <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -315,17 +315,17 @@ export default function AboutPage() {
               href="/signup/client" 
               className="inline-block relative overflow-hidden group"
             >
-              <span className="relative z-10 block bg-crispy-gold text-crispy-black px-12 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300">
+              <span className="relative z-10 block bg-crispy-gold text-crispy-black px-12 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white">
                 Start Your Membership
               </span>
-              <span className="absolute inset-0 bg-crispy-white transform scale-0 group-hover:scale-100 transition-transform duration-300"></span>
+              <span className="absolute inset-0 bg-crispy-black transform scale-0 group-hover:scale-100 transition-transform duration-300"></span>
             </Link>
             
             <Link 
               href="/contact" 
               className="inline-block relative overflow-hidden group"
             >
-              <span className="relative z-10 block border border-crispy-text-primary text-crispy-text-primary px-12 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-black dark:border-crispy-white dark:text-crispy-white dark:group-hover:text-crispy-white">
+              <span className="relative z-10 block border border-crispy-text-primary text-crispy-text-primary px-12 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white dark:border-crispy-white dark:text-crispy-white dark:group-hover:text-crispy-black">
                 Get In Touch
               </span>
               <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
