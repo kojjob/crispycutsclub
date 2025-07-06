@@ -1,16 +1,290 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+  output   = "../app/generated-prisma-client"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-// Enums
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  phone          String?
+  hashedPassword String?
+  role           UserRole
+  emailVerified  DateTime?
+  image          String?
+  lastLogin      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  accounts       Account[]
+  agency         Agency?
+  barber         Barber?
+  client         Client?
+  sessions       Session[]
+
+  @@index([email])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Client {
+  id                String          @id @default(cuid())
+  userId            String          @unique
+  preferredServices String[]
+  membershipTier    MembershipTier  @default(ESSENTIAL)
+  stripeCustomerId  String?         @unique
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  bookings          Booking[]
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  memberships       Membership[]
+  paymentMethods    PaymentMethod[]
+  reviews           Review[]
+}
+
+model Barber {
+  id                String           @id @default(cuid())
+  userId            String           @unique
+  bio               String?
+  specialties       String[]
+  yearsOfExperience Int              @default(0)
+  licenseNumber     String?
+  portfolioUrl      String?
+  instagramHandle   String?
+  basePrice         Float            @default(44.99)
+  isAvailable       Boolean          @default(false)
+  isVerified        Boolean          @default(false)
+  rating            Float            @default(0)
+  totalCuts         Int              @default(0)
+  areaId            String?
+  stripeAccountId   String?          @unique
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  availability      Availability[]
+  area              Area?            @relation(fields: [areaId], references: [id])
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings          Booking[]
+  memberships       Membership[]
+  portfolio         PortfolioImage[]
+  reviews           Review[]
+
+  @@index([areaId])
+  @@index([isVerified])
+}
+
+model Agency {
+  id               String        @id @default(cuid())
+  userId           String        @unique
+  companyName      String
+  companyWebsite   String?
+  companyAddress   String?
+  contactRole      String?
+  numberOfModels   Int           @default(0)
+  isVerified       Boolean       @default(false)
+  stripeCustomerId String?       @unique
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  models           AgencyModel[]
+  bookings         Booking[]
+
+  @@index([isVerified])
+}
+
+model Area {
+  id         String   @id @default(cuid())
+  name       String
+  city       String
+  boundaries Json?
+  maxBarbers Int      @default(3)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  barbers    Barber[]
+
+  @@unique([name, city])
+  @@index([city])
+}
+
+model Membership {
+  id                   String           @id @default(cuid())
+  clientId             String
+  barberId             String
+  status               MembershipStatus @default(ACTIVE)
+  price                Float
+  startDate            DateTime         @default(now())
+  lockedUntil          DateTime?
+  gracePeriodEnd       DateTime?
+  cancelledAt          DateTime?
+  stripeSubscriptionId String?          @unique
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  bookings             Booking[]
+  barber               Barber           @relation(fields: [barberId], references: [id])
+  client               Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  payments             Payment[]
+
+  @@index([clientId])
+  @@index([barberId])
+  @@index([status])
+}
+
+model Booking {
+  id                 String        @id @default(cuid())
+  membershipId       String?
+  clientId           String?
+  barberId           String
+  agencyId           String?
+  scheduledAt        DateTime
+  duration           Int           @default(45)
+  status             BookingStatus @default(PENDING)
+  notes              String?
+  completedAt        DateTime?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  agency             Agency?       @relation(fields: [agencyId], references: [id])
+  barber             Barber        @relation(fields: [barberId], references: [id])
+  client             Client?       @relation(fields: [clientId], references: [id])
+  membership         Membership?   @relation(fields: [membershipId], references: [id])
+  payment            Payment?
+  review             Review?
+
+  @@index([clientId])
+  @@index([barberId])
+  @@index([agencyId])
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+model Availability {
+  id        String   @id @default(cuid())
+  barberId  String
+  dayOfWeek Int
+  startTime String
+  endTime   String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  barber    Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+
+  @@unique([barberId, dayOfWeek, startTime])
+  @@index([barberId])
+}
+
+model PortfolioImage {
+  id        String   @id @default(cuid())
+  barberId  String
+  imageUrl  String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  barber    Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+
+  @@index([barberId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  bookingId String   @unique
+  clientId  String
+  barberId  String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  barber    Barber   @relation(fields: [barberId], references: [id])
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  client    Client   @relation(fields: [clientId], references: [id])
+
+  @@index([clientId])
+  @@index([barberId])
+}
+
+model PaymentMethod {
+  id                    String   @id @default(cuid())
+  clientId              String
+  stripePaymentMethodId String   @unique
+  type                  String
+  last4                 String?
+  isDefault             Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  client                Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+}
+
+model Payment {
+  id                    String        @id @default(cuid())
+  membershipId          String?
+  bookingId             String?       @unique
+  amount                Float
+  platformFee           Float
+  barberAmount          Float
+  status                PaymentStatus @default(PENDING)
+  stripePaymentIntentId String?       @unique
+  stripeInvoiceId       String?       @unique
+  paidAt                DateTime?
+  failedAt              DateTime?
+  refundedAt            DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  booking               Booking?      @relation(fields: [bookingId], references: [id])
+  membership            Membership?   @relation(fields: [membershipId], references: [id])
+
+  @@index([membershipId])
+  @@index([status])
+}
+
+model AgencyModel {
+  id        String   @id @default(cuid())
+  agencyId  String
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  agency    Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+}
+
 enum UserRole {
   CLIENT
   BARBER
@@ -44,306 +318,4 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
-}
-
-// User model
-model User {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  name            String?
-  phone           String?
-  hashedPassword  String?
-  role            UserRole
-  emailVerified   DateTime?
-  image           String?
-  lastLogin       DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  // Role-specific profiles
-  client          Client?
-  barber          Barber?
-  agency          Agency?
-  
-  // Auth relations
-  accounts        Account[]
-  sessions        Session[]
-  
-  @@index([email])
-}
-
-// NextAuth Account
-model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@index([userId])
-}
-
-// NextAuth Session
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@index([userId])
-}
-
-// Client profile
-model Client {
-  id                  String         @id @default(cuid())
-  userId              String         @unique
-  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  preferredServices   String[]
-  membershipTier      MembershipTier @default(ESSENTIAL)
-  stripeCustomerId    String?        @unique
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
-  
-  memberships         Membership[]
-  bookings            Booking[]
-  reviews             Review[]
-  paymentMethods      PaymentMethod[]
-}
-
-// Barber profile
-model Barber {
-  id                String   @id @default(cuid())
-  userId            String   @unique
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio               String?
-  specialties       String[]
-  yearsOfExperience Int      @default(0)
-  licenseNumber     String?
-  portfolioUrl      String?
-  instagramHandle   String?
-  basePrice         Float    @default(44.99)
-  isAvailable       Boolean  @default(false)
-  isVerified        Boolean  @default(false)
-  rating            Float    @default(0)
-  totalCuts         Int      @default(0)
-  areaId            String?
-  area              Area?    @relation(fields: [areaId], references: [id])
-  stripeAccountId   String?  @unique
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  memberships       Membership[]
-  bookings          Booking[]
-  reviews           Review[]
-  availability      Availability[]
-  portfolio         PortfolioImage[]
-  
-  @@index([areaId])
-  @@index([isVerified])
-}
-
-// Agency profile
-model Agency {
-  id               String   @id @default(cuid())
-  userId           String   @unique
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyName      String
-  companyWebsite   String?
-  companyAddress   String?
-  contactRole      String?
-  numberOfModels   Int      @default(0)
-  isVerified       Boolean  @default(false)
-  stripeCustomerId String?  @unique
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  
-  models           AgencyModel[]
-  bookings         Booking[]
-  
-  @@index([isVerified])
-}
-
-// Geographic areas
-model Area {
-  id          String   @id @default(cuid())
-  name        String
-  city        String
-  boundaries  Json?    // GeoJSON format
-  maxBarbers  Int      @default(3)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  barbers     Barber[]
-  
-  @@unique([name, city])
-  @@index([city])
-}
-
-// Membership subscriptions
-model Membership {
-  id                   String           @id @default(cuid())
-  clientId             String
-  client               Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  barberId             String
-  barber               Barber           @relation(fields: [barberId], references: [id])
-  status               MembershipStatus @default(ACTIVE)
-  price                Float
-  startDate            DateTime         @default(now())
-  lockedUntil          DateTime?        // 2-month lock period
-  gracePeriodEnd       DateTime?        // 48-hour grace period
-  cancelledAt          DateTime?
-  stripeSubscriptionId String?          @unique
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
-  
-  bookings             Booking[]
-  payments             Payment[]
-  
-  @@index([clientId])
-  @@index([barberId])
-  @@index([status])
-}
-
-// Bookings
-model Booking {
-  id                 String        @id @default(cuid())
-  membershipId       String?
-  membership         Membership?   @relation(fields: [membershipId], references: [id])
-  clientId           String?
-  client             Client?       @relation(fields: [clientId], references: [id])
-  barberId           String
-  barber             Barber        @relation(fields: [barberId], references: [id])
-  agencyId           String?
-  agency             Agency?       @relation(fields: [agencyId], references: [id])
-  scheduledAt        DateTime
-  duration           Int           @default(45) // minutes
-  status             BookingStatus @default(PENDING)
-  notes              String?
-  completedAt        DateTime?
-  cancelledAt        DateTime?
-  cancellationReason String?
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
-  
-  payment            Payment?
-  review             Review?
-  
-  @@index([clientId])
-  @@index([barberId])
-  @@index([agencyId])
-  @@index([scheduledAt])
-  @@index([status])
-}
-
-// Barber availability
-model Availability {
-  id         String   @id @default(cuid())
-  barberId   String
-  barber     Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
-  dayOfWeek  Int      // 0-6 (Sunday-Saturday)
-  startTime  String   // HH:MM format
-  endTime    String   // HH:MM format
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
-  @@unique([barberId, dayOfWeek, startTime])
-  @@index([barberId])
-}
-
-// Portfolio images
-model PortfolioImage {
-  id         String   @id @default(cuid())
-  barberId   String
-  barber     Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
-  imageUrl   String
-  caption    String?
-  order      Int      @default(0)
-  createdAt  DateTime @default(now())
-  
-  @@index([barberId])
-}
-
-// Reviews
-model Review {
-  id         String   @id @default(cuid())
-  bookingId  String   @unique
-  booking    Booking  @relation(fields: [bookingId], references: [id])
-  clientId   String
-  client     Client   @relation(fields: [clientId], references: [id])
-  barberId   String
-  barber     Barber   @relation(fields: [barberId], references: [id])
-  rating     Int      // 1-5
-  comment    String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
-  @@index([clientId])
-  @@index([barberId])
-}
-
-// Payment methods
-model PaymentMethod {
-  id                    String   @id @default(cuid())
-  clientId              String
-  client                Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  stripePaymentMethodId String   @unique
-  type                  String   // card, bacs_debit, etc.
-  last4                 String?
-  isDefault             Boolean  @default(false)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  
-  @@index([clientId])
-}
-
-// Payments
-model Payment {
-  id                    String        @id @default(cuid())
-  membershipId          String?
-  membership            Membership?   @relation(fields: [membershipId], references: [id])
-  bookingId             String?       @unique
-  booking               Booking?      @relation(fields: [bookingId], references: [id])
-  amount                Float
-  platformFee           Float
-  barberAmount          Float
-  status                PaymentStatus @default(PENDING)
-  stripePaymentIntentId String?       @unique
-  stripeInvoiceId       String?       @unique
-  paidAt                DateTime?
-  failedAt              DateTime?
-  refundedAt            DateTime?
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
-  
-  @@index([membershipId])
-  @@index([status])
-}
-
-// Agency models
-model AgencyModel {
-  id         String   @id @default(cuid())
-  agencyId   String
-  agency     Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-  firstName  String
-  lastName   String
-  email      String   @unique
-  phone      String?
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
-  @@index([agencyId])
 }
