@@ -1,0 +1,64 @@
+name: Database Backup
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    name: Backup Production Database
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      
+      - name: Create backup
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          # Extract connection details from DATABASE_URL
+          pg_dump $DATABASE_URL --no-owner --no-privileges -f backup.sql
+          
+          # Compress the backup
+          gzip backup.sql
+          
+          # Create timestamp
+          echo "BACKUP_DATE=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
+      
+      - name: Upload backup to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+        run: |
+          aws s3 cp backup.sql.gz s3://$S3_BUCKET/database-backups/crispycutsclub_${{ env.BACKUP_DATE }}.sql.gz
+      
+      - name: Clean up old backups
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+        run: |
+          # Keep only the last 30 days of backups
+          aws s3 ls s3://$S3_BUCKET/database-backups/ | \
+          awk '{print $4}' | \
+          sort -r | \
+          tail -n +31 | \
+          xargs -I {} aws s3 rm s3://$S3_BUCKET/database-backups/{}
+      
+      - name: Notify on failure
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'Database backup failed!'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
