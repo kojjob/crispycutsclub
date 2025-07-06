@@ -8,7 +8,29 @@ import Link from 'next/link'
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
+  
+  // Validate callback URL to prevent open redirect vulnerabilities
+  const getCallbackUrl = () => {
+    const url = searchParams.get('callbackUrl') || '/dashboard'
+    
+    // Only allow relative URLs that start with /
+    if (url.startsWith('/') && !url.startsWith('//')) {
+      // Additional check to prevent protocol-relative URLs
+      try {
+        const parsed = new URL(url, window.location.origin)
+        if (parsed.origin === window.location.origin) {
+          return url
+        }
+      } catch {
+        // If URL parsing fails, it's likely a relative path which is safe
+        return url
+      }
+    }
+    
+    return '/dashboard'
+  }
+  
+  const callbackUrl = getCallbackUrl()
   
   const [formData, setFormData] = useState({
     email: '',

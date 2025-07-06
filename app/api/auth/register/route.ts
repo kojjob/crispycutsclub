@@ -3,30 +3,51 @@ import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/auth-utils'
 import { UserRole } from '@prisma/client'
 import { z } from 'zod'
+import { authRateLimit } from '@/lib/rate-limit'
 
 const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  phone: z.string().optional(),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  name: z.string().min(2, 'Name must be at least 2 characters').max(100, 'Name too long'),
+  email: z.string().email('Invalid email address').max(255, 'Email too long').toLowerCase(),
+  phone: z.string().max(20, 'Phone number too long').optional(),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(100, 'Password too long')
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password must contain uppercase, lowercase, and number'),
   role: z.nativeEnum(UserRole),
   barberData: z.object({
-    yearsOfExperience: z.number().min(0),
-    specialties: z.array(z.string()),
-    licenseNumber: z.string().optional(),
-    portfolioUrl: z.string().optional(),
+    yearsOfExperience: z.number().min(0).max(100),
+    specialties: z.array(z.string().max(50)).max(10),
+    licenseNumber: z.string().max(50).optional(),
+    portfolioUrl: z.string().url().max(255).optional(),
   }).optional(),
   agencyData: z.object({
-    companyName: z.string().min(2),
-    companyWebsite: z.string().optional(),
-    numberOfModels: z.number().min(50),
-    contactRole: z.string(),
-    companyAddress: z.string(),
+    companyName: z.string().min(2).max(100),
+    companyWebsite: z.string().url().max(255).optional(),
+    numberOfModels: z.number().min(50).max(10000),
+    contactRole: z.string().max(100),
+    companyAddress: z.string().max(500),
   }).optional(),
 })
 
 export async function POST(req: NextRequest) {
   try {
+    // Apply rate limiting
+    const rateLimitResult = await authRateLimit(req)
+    
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimitResult.reset).toISOString(),
+          }
+        }
+      )
+    }
+    
     const body = await req.json()
     
     // Validate input
