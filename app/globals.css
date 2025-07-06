@@ -3,6 +3,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Premium Theme Variables */
+@layer base {
+  :root {
+    /* Light Theme - Premium White & Gold */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8F9FA;
+    --bg-tertiary: #F3F4F6;
+    --bg-accent: #FEF9E7;
+    
+    --text-primary: #000000;
+    --text-secondary: #374151;
+    --text-tertiary: #6B7280;
+    --text-inverse: #FFFFFF;
+    
+    --border-primary: #E5E7EB;
+    --border-secondary: #D1D5DB;
+    --border-accent: #D4AF37;
+    
+    /* Gold stays consistent across themes for brand identity */
+    --gold-primary: #D4AF37;
+    --gold-light: #E8C547;
+    --gold-dark: #B8941F;
+  }
+  
+  .dark {
+    /* Dark Theme - Premium Black */
+    --bg-primary: #000000;
+    --bg-secondary: #0A0A0A;
+    --bg-tertiary: #1A1A1A;
+    --bg-accent: #1F1B0A;
+    
+    --text-primary: #FFFFFF;
+    --text-secondary: #D1D5DB;
+    --text-tertiary: #9CA3AF;
+    --text-inverse: #000000;
+    
+    --border-primary: #374151;
+    --border-secondary: #4B5563;
+    --border-accent: #D4AF37;
+  }
+}
+
 @layer components {
   .btn-primary {
     background: linear-gradient(135deg, #D4AF37, #E8C547);
@@ -41,8 +83,8 @@
   
   .btn-secondary {
     background: transparent;
-    color: #FFFFFF;
-    border: 2px solid #FFFFFF;
+    color: var(--text-primary);
+    border: 2px solid var(--border-primary);
     padding: 1rem 2rem;
     position: relative;
     overflow: hidden;
@@ -53,6 +95,11 @@
     font-weight: 500;
   }
   
+  .dark .btn-secondary {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+  }
+  
   .btn-secondary::before {
     content: '';
     position: absolute;
@@ -60,14 +107,23 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: #FFFFFF;
+    background: var(--text-primary);
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: -1;
   }
   
+  .dark .btn-secondary::before {
+    background: #FFFFFF;
+  }
+  
   .btn-secondary:hover {
-    color: #000000;
+    color: var(--text-inverse);
     transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+  }
+  
+  .dark .btn-secondary:hover {
+    color: #000000;
     box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2);
   }
   
@@ -76,8 +132,8 @@
   }
   
   .premium-card {
-    background: #FFFFFF;
-    border: 1px solid #E9ECEF;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -90,7 +146,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #D4AF37, #E8C547);
+    background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
     transform: scaleX(0);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -98,7 +154,11 @@
   .premium-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-    border-color: #D4AF37;
+    border-color: var(--gold-primary);
+  }
+  
+  .dark .premium-card:hover {
+    box-shadow: 0 25px 50px rgba(212, 175, 55, 0.1);
   }
   
   .premium-card:hover::before {
@@ -225,14 +285,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D4AF37;
+  background: var(--gold-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B8941F;
+  background: var(--gold-dark);
 }
