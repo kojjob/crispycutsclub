@@ -2,6 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Label } from '@/components/ui/label'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -191,32 +196,30 @@ export default function ContactPage() {
                     {/* Name Fields */}
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label htmlFor="firstName" className="block text-sm text-crispy-text-secondary mb-2">
+                        <Label htmlFor="firstName" className="text-sm text-crispy-text-secondary">
                           First Name *
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                           type="text"
                           id="firstName"
                           name="firstName"
                           value={formData.firstName}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary placeholder-crispy-text-tertiary focus:outline-none focus:border-crispy-gold transition-colors"
                           placeholder="John"
                         />
                       </div>
                       <div>
-                        <label htmlFor="lastName" className="block text-sm text-crispy-text-secondary mb-2">
+                        <Label htmlFor="lastName" className="text-sm text-crispy-text-secondary">
                           Last Name *
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                           type="text"
                           id="lastName"
                           name="lastName"
                           value={formData.lastName}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary placeholder-crispy-text-tertiary focus:outline-none focus:border-crispy-gold transition-colors"
                           placeholder="Doe"
                         />
                       </div>
@@ -225,31 +228,29 @@ export default function ContactPage() {
                     {/* Email & Phone */}
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label htmlFor="email" className="block text-sm text-crispy-text-secondary mb-2">
+                        <Label htmlFor="email" className="text-sm text-crispy-text-secondary">
                           Email Address *
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                           type="email"
                           id="email"
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary placeholder-crispy-text-tertiary focus:outline-none focus:border-crispy-gold transition-colors"
                           placeholder="john@example.com"
                         />
                       </div>
                       <div>
-                        <label htmlFor="phone" className="block text-sm text-crispy-text-secondary mb-2">
+                        <Label htmlFor="phone" className="text-sm text-crispy-text-secondary">
                           Phone Number
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                           type="tel"
                           id="phone"
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary placeholder-crispy-text-tertiary focus:outline-none focus:border-crispy-gold transition-colors"
                           placeholder="+44 20 1234 5678"
                         />
                       </div>
@@ -258,37 +259,36 @@ export default function ContactPage() {
                     {/* User Type & Subject */}
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label htmlFor="userType" className="block text-sm text-crispy-text-secondary mb-2">
+                        <Label htmlFor="userType" className="text-sm text-crispy-text-secondary">
                           I am a *
-                        </label>
-                        <select
-                          id="userType"
-                          name="userType"
+                        </Label>
+                        <Select
                           value={formData.userType}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary focus:outline-none focus:border-crispy-gold transition-colors"
+                          onValueChange={(value) => setFormData({ ...formData, userType: value })}
                         >
-                          <option value="">Select...</option>
-                          <option value="client">Client</option>
-                          <option value="barber">Barber</option>
-                          <option value="agency">Agency</option>
-                          <option value="shelter">Shelter Representative</option>
-                          <option value="other">Other</option>
-                        </select>
+                          <SelectTrigger id="userType">
+                            <SelectValue placeholder="Select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="client">Client</SelectItem>
+                            <SelectItem value="barber">Barber</SelectItem>
+                            <SelectItem value="agency">Agency</SelectItem>
+                            <SelectItem value="shelter">Shelter Representative</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div>
-                        <label htmlFor="subject" className="block text-sm text-crispy-text-secondary mb-2">
+                        <Label htmlFor="subject" className="text-sm text-crispy-text-secondary">
                           Subject *
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                           type="text"
                           id="subject"
                           name="subject"
                           value={formData.subject}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary placeholder-crispy-text-tertiary focus:outline-none focus:border-crispy-gold transition-colors"
                           placeholder="How can we help?"
                         />
                       </div>
@@ -296,31 +296,24 @@ export default function ContactPage() {
 
                     {/* Message */}
                     <div>
-                      <label htmlFor="message" className="block text-sm text-crispy-text-secondary mb-2">
+                      <Label htmlFor="message" className="text-sm text-crispy-text-secondary">
                         Message *
-                      </label>
-                      <textarea
+                      </Label>
+                      <Textarea
                         id="message"
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
                         required
                         rows={6}
-                        className="w-full px-4 py-3 bg-crispy-bg-secondary border border-crispy-border-primary text-crispy-text-primary placeholder-crispy-text-tertiary focus:outline-none focus:border-crispy-gold transition-colors resize-none"
                         placeholder="Tell us more about your inquiry..."
                       />
                     </div>
 
                     {/* Submit Button */}
-                    <button
-                      type="submit"
-                      className="inline-block relative overflow-hidden group w-full"
-                    >
-                      <span className="relative z-10 block bg-crispy-gold text-crispy-black px-8 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white">
-                        Send Message
-                      </span>
-                      <span className="absolute inset-0 bg-crispy-black transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom"></span>
-                    </button>
+                    <Button type="submit" size="lg" className="w-full">
+                      Send Message
+                    </Button>
                   </form>
                 </div>
               </div>
@@ -368,25 +361,17 @@ export default function ContactPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link 
-              href="/how-it-works" 
-              className="inline-block relative overflow-hidden group"
-            >
-              <span className="relative z-10 block border border-crispy-text-primary dark:border-crispy-border-primary text-crispy-text-primary px-8 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white dark:group-hover:text-crispy-black">
+            <Button variant="outline" asChild>
+              <Link href="/how-it-works">
                 How It Works
-              </span>
-              <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </Link>
+              </Link>
+            </Button>
             
-            <Link 
-              href="/pricing" 
-              className="inline-block relative overflow-hidden group"
-            >
-              <span className="relative z-10 block border border-crispy-text-primary dark:border-crispy-border-primary text-crispy-text-primary px-8 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-white dark:group-hover:text-crispy-black">
+            <Button variant="outline" asChild>
+              <Link href="/pricing">
                 View Pricing
-              </span>
-              <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
