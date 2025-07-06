@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 import AuthSessionProvider from '@/components/providers/session-provider'
 import LayoutWrapper from '@/components/layout-wrapper'
+import { ThemeProvider } from '@/lib/contexts/theme-context'
+import { ThemeScript } from './theme-script'
 
 export const metadata: Metadata = {
   title: 'Crispy Cuts Club - Premium Grooming Membership',
@@ -48,13 +50,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="font-sans antialiased bg-crispy-black">
-        <AuthSessionProvider>
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-        </AuthSessionProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body className="font-sans antialiased bg-crispy-bg-primary text-crispy-text-primary transition-colors duration-300">
+        <ThemeProvider>
+          <AuthSessionProvider>
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+          </AuthSessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,12 +9,35 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'crispy-black': '#000000',
-        'crispy-white': '#FFFFFF',
-        'crispy-charcoal': '#1A1A1A',
-        'crispy-gold': '#D4AF37',
-        'crispy-success': '#0D5F3A',
-        'crispy-error': '#8B0000',
+        // Premium color palette with theme support
+        'crispy': {
+          // Base colors
+          'black': '#000000',
+          'white': '#FFFFFF',
+          'charcoal': '#1A1A1A',
+          'gold': '#D4AF37',
+          'success': '#0D5F3A',
+          'error': '#8B0000',
+          
+          // Theme-aware colors using CSS variables
+          'bg': {
+            'primary': 'var(--bg-primary)',
+            'secondary': 'var(--bg-secondary)',
+            'tertiary': 'var(--bg-tertiary)',
+            'accent': 'var(--bg-accent)',
+          },
+          'text': {
+            'primary': 'var(--text-primary)',
+            'secondary': 'var(--text-secondary)',
+            'tertiary': 'var(--text-tertiary)',
+            'inverse': 'var(--text-inverse)',
+          },
+          'border': {
+            'primary': 'var(--border-primary)',
+            'secondary': 'var(--border-secondary)',
+            'accent': 'var(--border-accent)',
+          },
+        },
       },
       fontFamily: {
         'serif': ['Playfair Display', 'serif'],
