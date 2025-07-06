@@ -69,7 +69,7 @@ export default function HomePage() {
                     href="/client-membership" 
                     className="inline-block relative overflow-hidden group/btn"
                   >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
+                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-black dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-black">
                       Learn More
                     </span>
                     <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -99,7 +99,7 @@ export default function HomePage() {
                     href="/barber-network" 
                     className="inline-block relative overflow-hidden group/btn"
                   >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
+                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-black dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-black">
                       Learn More
                     </span>
                     <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -129,7 +129,7 @@ export default function HomePage() {
                     href="/agency-services" 
                     className="inline-block relative overflow-hidden group/btn"
                   >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
+                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-black dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-black">
                       Learn More
                     </span>
                     <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -159,7 +159,7 @@ export default function HomePage() {
                     href="/shelter-program" 
                     className="inline-block relative overflow-hidden group/btn"
                   >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
+                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-black dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-black">
                       Learn More
                     </span>
                     <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>

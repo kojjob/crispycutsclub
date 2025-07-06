@@ -3,6 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure body has a background */
+body {
+  background-color: #000000; /* Default to dark theme */
+  color: #FFFFFF;
+}
+
+/* Light theme override */
+html.light body {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
 /* Premium Theme Variables */
 @layer base {
   :root {

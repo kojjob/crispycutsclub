@@ -284,7 +284,7 @@ export default function AboutPage() {
                 href="/shelter-program" 
                 className="inline-block relative overflow-hidden group"
               >
-                <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-10 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover:text-crispy-white">
+                <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-10 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover:text-crispy-black">
                   Learn About Our Program
                 </span>
                 <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>

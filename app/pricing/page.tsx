@@ -243,7 +243,7 @@ export default function PricingPage() {
                       href={`/signup/client?plan=${tier.name.toLowerCase()}`}
                       className="inline-block relative overflow-hidden group/btn w-full"
                     >
-                      <span className={`relative z-10 block ${tier.popular ? 'bg-crispy-gold text-crispy-bg-primary' : 'border border-crispy-text-primary text-crispy-text-primary dark:border-crispy-text-primary dark:text-crispy-text-primary'} px-8 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 ${tier.popular ? '' : 'group-hover/btn:text-crispy-bg-primary dark:group-hover/btn:text-crispy-bg-primary'}`}>
+                      <span className={`relative z-10 block ${tier.popular ? 'bg-crispy-gold text-crispy-bg-primary' : 'border border-crispy-text-primary text-crispy-text-primary dark:border-crispy-text-primary dark:text-crispy-text-primary'} px-8 py-4 font-light tracking-wider uppercase text-sm transition-colors duration-300 ${tier.popular ? '' : 'group-hover/btn:text-crispy-bg-primary dark:group-hover/btn:text-crispy-black'}`}>
                         {tier.cta}
                       </span>
                       <span className={`absolute inset-0 ${tier.popular ? 'bg-crispy-text-primary dark:bg-crispy-text-primary' : 'bg-crispy-text-primary dark:bg-crispy-text-primary'} transform ${tier.popular ? 'scale-0 group-hover/btn:scale-100' : 'scale-x-0 group-hover/btn:scale-x-100'} transition-transform duration-300 ${tier.popular ? '' : 'origin-left'}`}></span>
@@ -401,7 +401,7 @@ export default function PricingPage() {
                   href="/contact?type=shelter" 
                   className="inline-block relative overflow-hidden group/btn"
                 >
-                  <span className="relative z-10 block border border-crispy-text-primary text-crispy-text-primary dark:border-crispy-text-primary dark:text-crispy-text-primary px-10 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover/btn:text-crispy-bg-primary dark:group-hover/btn:text-crispy-bg-primary">
+                  <span className="relative z-10 block border border-crispy-text-primary text-crispy-text-primary dark:border-crispy-text-primary dark:text-crispy-text-primary px-10 py-3 font-light tracking-wider uppercase text-sm transition-colors duration-300 group-hover/btn:text-crispy-bg-primary dark:group-hover/btn:text-crispy-black">
                     Apply as Shelter
                   </span>
                   <span className="absolute inset-0 bg-crispy-text-primary dark:bg-crispy-text-primary transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>

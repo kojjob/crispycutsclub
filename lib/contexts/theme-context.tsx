@@ -39,14 +39,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.add(newTheme)
   }
 
-  // Prevent flash of incorrect theme
-  if (!mounted) {
-    return null
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      {mounted ? children : <div className="min-h-screen bg-crispy-bg-primary" />}
     </ThemeContext.Provider>
   )
 }
