@@ -1,8 +1,43 @@
 'use client'
 
-import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+// Lazy load the service cards
+const ServiceCard = dynamic(() => import('@/components/ServiceCard'), {
+  loading: () => (
+    <div className="animate-pulse">
+      <div className="h-64 bg-crispy-bg-secondary rounded"></div>
+    </div>
+  ),
+})
 
 export default function HomePage() {
+  const services = [
+    {
+      title: 'Clients',
+      description: 'Premium grooming membership with exclusive access to master barbers.',
+      href: '/client-membership',
+      icon: '♔',
+    },
+    {
+      title: 'Barbers',
+      description: 'Build a thriving business with guaranteed monthly income.',
+      href: '/barber-network',
+      icon: '✂',
+    },
+    {
+      title: 'Modeling Agencies',
+      description: 'Professional grooming services for your talent roster.',
+      href: '/agency-services',
+      icon: '◈',
+    },
+    {
+      title: 'Homeless Shelters',
+      description: 'Free grooming services for residents preparing for employment.',
+      href: '/shelter-program',
+      icon: '♥',
+    },
+  ]
   return (
     <>
       {/* Large Centered Logo */}
@@ -46,127 +81,9 @@ export default function HomePage() {
         <section className="relative py-16 md:py-20 lg:py-24 bg-gradient-to-b from-crispy-bg-secondary/20 to-crispy-bg-primary">
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-              
-              {/* Clients */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-crispy-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative text-center p-6 md:p-8 border border-crispy-border-primary hover:border-crispy-gold/30 transition-all duration-500 bg-crispy-bg-primary">
-                  {/* Icon */}
-                  <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 md:mb-8 relative">
-                    <div className="absolute inset-0 bg-crispy-gold/20 blur-xl group-hover:bg-crispy-gold/30 transition-colors duration-500"></div>
-                    <div className="relative w-full h-full border border-crispy-gold/50 flex items-center justify-center">
-                      <span className="text-crispy-gold text-xl md:text-2xl">♔</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl md:text-2xl font-serif font-light text-crispy-text-primary mb-4 md:mb-6 tracking-wide">
-                    Clients
-                  </h3>
-                  <p className="text-sm md:text-base text-crispy-text-secondary mb-8 md:mb-10 leading-relaxed font-light">
-                    Premium grooming membership with exclusive access to master barbers.
-                  </p>
-                  <Link 
-                    href="/client-membership" 
-                    className="inline-block relative overflow-hidden group/btn"
-                  >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
-                      Learn More
-                    </span>
-                    <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Barbers */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-crispy-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative text-center p-6 md:p-8 border border-crispy-border-primary hover:border-crispy-gold/30 transition-all duration-500 bg-crispy-bg-primary">
-                  {/* Icon */}
-                  <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 md:mb-8 relative">
-                    <div className="absolute inset-0 bg-crispy-gold/20 blur-xl group-hover:bg-crispy-gold/30 transition-colors duration-500"></div>
-                    <div className="relative w-full h-full border border-crispy-gold/50 flex items-center justify-center">
-                      <span className="text-crispy-gold text-xl md:text-2xl">✂</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl md:text-2xl font-serif font-light text-crispy-text-primary mb-4 md:mb-6 tracking-wide">
-                    Barbers
-                  </h3>
-                  <p className="text-sm md:text-base text-crispy-text-secondary mb-8 md:mb-10 leading-relaxed font-light">
-                    Build a thriving business with guaranteed monthly income.
-                  </p>
-                  <Link 
-                    href="/barber-network" 
-                    className="inline-block relative overflow-hidden group/btn"
-                  >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
-                      Learn More
-                    </span>
-                    <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Modeling Agencies */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-crispy-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative text-center p-6 md:p-8 border border-crispy-border-primary hover:border-crispy-gold/30 transition-all duration-500 bg-crispy-bg-primary">
-                  {/* Icon */}
-                  <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 md:mb-8 relative">
-                    <div className="absolute inset-0 bg-crispy-gold/20 blur-xl group-hover:bg-crispy-gold/30 transition-colors duration-500"></div>
-                    <div className="relative w-full h-full border border-crispy-gold/50 flex items-center justify-center">
-                      <span className="text-crispy-gold text-xl md:text-2xl">◈</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl md:text-2xl font-serif font-light text-crispy-text-primary mb-4 md:mb-6 tracking-wide">
-                    Modeling Agencies
-                  </h3>
-                  <p className="text-sm md:text-base text-crispy-text-secondary mb-8 md:mb-10 leading-relaxed font-light">
-                    Professional grooming services for your talent roster.
-                  </p>
-                  <Link 
-                    href="/agency-services" 
-                    className="inline-block relative overflow-hidden group/btn"
-                  >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
-                      Learn More
-                    </span>
-                    <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Homeless Shelters */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-crispy-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative text-center p-6 md:p-8 border border-crispy-border-primary hover:border-crispy-gold/30 transition-all duration-500 bg-crispy-bg-primary">
-                  {/* Icon */}
-                  <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 md:mb-8 relative">
-                    <div className="absolute inset-0 bg-crispy-gold/20 blur-xl group-hover:bg-crispy-gold/30 transition-colors duration-500"></div>
-                    <div className="relative w-full h-full border border-crispy-gold/50 flex items-center justify-center">
-                      <span className="text-crispy-gold text-xl md:text-2xl">♥</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl md:text-2xl font-serif font-light text-crispy-text-primary mb-4 md:mb-6 tracking-wide">
-                    Homeless Shelters
-                  </h3>
-                  <p className="text-sm md:text-base text-crispy-text-secondary mb-8 md:mb-10 leading-relaxed font-light">
-                    Free grooming services for residents preparing for employment.
-                  </p>
-                  <Link 
-                    href="/shelter-program" 
-                    className="inline-block relative overflow-hidden group/btn"
-                  >
-                    <span className="relative z-10 block bg-crispy-text-primary text-crispy-bg-primary px-6 md:px-10 py-2.5 md:py-3 font-light tracking-wider uppercase text-xs md:text-sm transition-colors duration-300 group-hover/btn:text-crispy-text-primary dark:bg-crispy-white dark:text-crispy-black dark:group-hover/btn:text-crispy-white">
-                      Learn More
-                    </span>
-                    <span className="absolute inset-0 bg-crispy-gold transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  </Link>
-                </div>
-              </div>
-
+              {services.map((service) => (
+                <ServiceCard key={service.title} {...service} />
+              ))}
             </div>
           </div>
         </section>

@@ -4,6 +4,20 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing STRIPE_SECRET_KEY environment variable')
 }
 
+// Validate that we're using the correct keys for the environment
+if (process.env.NODE_ENV === 'production') {
+  if (process.env.STRIPE_SECRET_KEY.startsWith('sk_test_')) {
+    throw new Error('Using test Stripe key in production environment!')
+  }
+  if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.startsWith('pk_test_')) {
+    throw new Error('Using test Stripe publishable key in production environment!')
+  }
+} else if (process.env.NODE_ENV === 'development') {
+  if (process.env.STRIPE_SECRET_KEY.startsWith('sk_live_')) {
+    console.warn('WARNING: Using live Stripe key in development environment!')
+  }
+}
+
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2025-06-30.basil',
   typescript: true,

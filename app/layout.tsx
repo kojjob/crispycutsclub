@@ -4,12 +4,14 @@ import AuthSessionProvider from '@/components/providers/session-provider'
 import LayoutWrapper from '@/components/layout-wrapper'
 import { ThemeProvider } from '@/lib/contexts/theme-context'
 import { ThemeScript } from './theme-script'
+import { inter, playfair } from './fonts'
 
 export const metadata: Metadata = {
   title: 'Crispy Cuts Club - Premium Grooming Membership',
   description: 'Join the ultimate grooming club connecting clients with exclusive master barbers through premium membership subscriptions.',
   keywords: 'barbershop, grooming, membership, haircut, premium barber, subscription',
   authors: [{ name: 'Crispy Cuts Club' }],
+  metadataBase: new URL('https://crispycutsclub.com'),
   openGraph: {
     title: 'Crispy Cuts Club - Premium Grooming Membership',
     description: 'Join the ultimate grooming club connecting clients with exclusive master barbers.',
@@ -50,11 +52,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable} light`}>
       <head>
         <ThemeScript />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className="font-sans antialiased bg-crispy-bg-primary text-crispy-text-primary transition-colors duration-300">
+      <body className={`${inter.className} antialiased bg-white dark:bg-black text-black dark:text-white transition-colors duration-300`}>
         <ThemeProvider>
           <AuthSessionProvider>
             <LayoutWrapper>

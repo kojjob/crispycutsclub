@@ -341,8 +341,18 @@ export default function ContactPage() {
             </p>
           </div>
           
-          <div className="aspect-[21/9] bg-crispy-bg-secondary/50 border border-crispy-border-primary flex items-center justify-center">
-            <p className="text-crispy-text-tertiary">Interactive Map Placeholder</p>
+          <div className="aspect-[21/9] bg-crispy-bg-secondary/50 border border-crispy-border-primary overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.1487383138584!2d-0.12473648422926!3d51.51028057963643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b90d89e07b%3A0x5d7f67b1b47d0a98!2sCovent%20Garden%2C%20London%2C%20UK!5e0!3m2!1sen!2sus!4v1625151567890!5m2!1sen!2sus"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Crispy Cuts Club Location"
+              className="grayscale hover:grayscale-0 transition-all duration-300"
+            />
           </div>
         </div>
       </section>
