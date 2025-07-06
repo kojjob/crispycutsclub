@@ -1,10 +1,12 @@
+'use client'
+
 import Link from 'next/link'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-crispy-bg-primary border-t border-crispy-border-primary">
+    <footer className="bg-crispy-bg-primary">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
@@ -157,7 +159,7 @@ export default function Footer() {
         </div>
 
         {/* Newsletter Section */}
-        <div className="mt-12 pt-12 border-t border-crispy-border-primary">
+        <div className="mt-12 pt-12">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="text-crispy-text-primary font-semibold mb-2">Stay in the Loop</h3>
@@ -165,7 +167,7 @@ export default function Footer() {
                 Get exclusive updates, grooming tips, and member-only offers delivered to your inbox.
               </p>
             </div>
-            <form className="flex space-x-2">
+            <form className="flex space-x-2" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -183,7 +185,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-crispy-bg-secondary border-t border-crispy-border-primary">
+      <div className="bg-crispy-bg-secondary">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <p className="text-crispy-text-tertiary text-xs text-center md:text-left">

@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
   images: {
     domains: ['images.unsplash.com', 'instagram.com', 'cdninstagram.com'],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   async headers() {
     return [
@@ -46,7 +51,7 @@ const nextConfig = {
               img-src 'self' data: https: blob:;
               font-src 'self' data:;
               connect-src 'self' https://api.stripe.com https://maps.googleapis.com;
-              frame-src 'self' https://js.stripe.com https://hooks.stripe.com;
+              frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://www.google.com https://maps.google.com;
               object-src 'none';
               base-uri 'self';
               form-action 'self';
