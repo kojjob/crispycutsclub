@@ -1,26 +1,29 @@
 import { PrismaClient } from '@prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-declare global {
-  // eslint-disable-next-line no-var
-  var prisma: PrismaClient | undefined
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
 }
 
-const createPrismaClient = () => {
-  const client = new PrismaClient()
+const prismaClientSingleton = () => {
+  const client = new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
+  })
   
   // Only use Accelerate if we have an Accelerate connection string
   if (process.env.DATABASE_URL?.includes('accelerate.prisma-data.net')) {
-    return client.$extends(withAccelerate())
+    return client.$extends(withAccelerate()) as unknown as PrismaClient
   }
   
   return client
 }
 
-export const prisma = global.prisma || createPrismaClient()
+declare const globalThis: {
+  prismaGlobal: ReturnType<typeof prismaClientSingleton>
+} & typeof global
 
-if (process.env.NODE_ENV !== 'production') {
-  global.prisma = prisma
-}
+export const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
+
+if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
 
 export default prisma
