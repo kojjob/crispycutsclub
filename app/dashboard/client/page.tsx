@@ -1,6 +1,5 @@
 import { requireClient } from '@/lib/auth-utils'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
 
 export default async function ClientDashboard() {
   const user = await requireClient()

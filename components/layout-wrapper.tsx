@@ -8,7 +8,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   const pathname = usePathname()
   
   // Don't show navigation and footer on auth pages and dashboard pages
-  const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/forgot-password')
+  const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/forgot-password') || pathname.startsWith('/logout')
   const isDashboardPage = pathname.startsWith('/dashboard')
   const showLayout = !isAuthPage && !isDashboardPage
 
