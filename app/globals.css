@@ -4,14 +4,14 @@
 
 /* Ensure body has a background */
 body {
-  background-color: #FFFFFF; /* Default to light theme */
-  color: #000000;
+  background-color: #000000; /* Default to dark theme */
+  color: #FFFFFF;
 }
 
-/* Dark theme override */
-html.dark body {
-  background-color: #000000;
-  color: #FFFFFF;
+/* Light theme override */
+html.light body {
+  background-color: #FFFFFF;
+  color: #000000;
 }
 
 /* Premium Theme Variables */

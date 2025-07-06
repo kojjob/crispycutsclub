@@ -52,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable} light`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable} dark`}>
       <head>
         <ThemeScript />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
